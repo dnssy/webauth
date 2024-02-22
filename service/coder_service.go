@@ -14,15 +14,8 @@ import (
 	"gorm.io/gorm"
 )
 
-// JsonResult 返回结构
-type JsonResult struct {
-	Code     int         `json:"code"`
-	ErrorMsg string      `json:"errorMsg,omitempty"`
-	Data     interface{} `json:"data"`
-}
-
-// IndexHandler 计数器接口
-func IndexHandler(w http.ResponseWriter, r *http.Request) {
+// IndexCoderHandler 计数器接口
+func IndexCoderHandler(w http.ResponseWriter, r *http.Request) {
 	data, err := getCoderIndex()
 	if err != nil {
 		fmt.Fprint(w, "内部错误")
@@ -41,15 +34,15 @@ func CodeHandler(w http.ResponseWriter, r *http.Request) {
 			res.Code = -1
 			res.ErrorMsg = err.Error()
 		} else {
-			res.Data = code.Count
+			res.Data = code.Code
 		}
 	} else if r.Method == http.MethodPost {
-		count, err := modifyCode(r)
+		code, err := modifyCode(r)
 		if err != nil {
 			res.Code = -1
 			res.ErrorMsg = err.Error()
 		} else {
-			res.Data = count
+			res.Data = code
 		}
 	} else {
 		res.Code = -1
@@ -67,7 +60,7 @@ func CodeHandler(w http.ResponseWriter, r *http.Request) {
 
 // modifyCode 更新计数，自增或者清零
 func modifyCode(r *http.Request) (int32, error) {
-	action, err := getAction(r)
+	action, err := getCoderAction(r)
 	if err != nil {
 		return 0, err
 	}
@@ -105,30 +98,30 @@ func UpsertCoder(r *http.Request) (int32, error) {
 	}
 	// code 赋值一个100000 到 999999 之间的随机数
 	rand.Seed(time.Now().UnixNano())
-	if currentCode.Count == 0 {
+	if currentCode.Code == 0 {
 		code = rand.Int31n(900000) + 100000
 	}
 
-	coder := &model.CodeModel{
+	coder := &model.CoderModel{
 		Id:        1,
 		Code:      code,
 		CreatedAt: createdAt,
 		UpdatedAt: time.Now(),
 	}
-	err = dao.Imp.UpsertCoder(coder)
+	err = dao.CoderImp.UpsertCoder(coder)
 	if err != nil {
 		return 0, err
 	}
-	return coder.Count, nil
+	return coder.Code, nil
 }
 
 func ClearCoder() error {
-	return dao.Imp.ClearCoder(1)
+	return dao.CoderImp.ClearCoder(1)
 }
 
 // getCurrentCode 查询当前计数器
-func getCurrentCode() (*model.CodeModel, error) {
-	Code, err := dao.Imp.GetCoder(1)
+func getCurrentCode() (*model.CoderModel, error) {
+	Code, err := dao.CoderImp.GetCoder(1)
 	if err != nil {
 		return nil, err
 	}
@@ -137,7 +130,7 @@ func getCurrentCode() (*model.CodeModel, error) {
 }
 
 // getAction 获取action
-func getAction(r *http.Request) (string, error) {
+func getCoderAction(r *http.Request) (string, error) {
 	decoder := json.NewDecoder(r.Body)
 	body := make(map[string]interface{})
 	if err := decoder.Decode(&body); err != nil {

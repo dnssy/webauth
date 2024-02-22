@@ -16,6 +16,8 @@ func main() {
 	http.HandleFunc("/", service.IndexHandler)
 	http.HandleFunc("/api/count", service.CounterHandler)
 	// 添加api/code 接口
+
+	http.HandleFunc("/code", service.IndexCoderHandler)
 	http.HandleFunc("/api/code", service.CodeHandler)
 
 	log.Fatal(http.ListenAndServe(":80", nil))
