@@ -23,7 +23,7 @@ type JsonResult struct {
 
 // IndexHandler 计数器接口
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	data, err := getIndex()
+	data, err := getCoderIndex()
 	if err != nil {
 		fmt.Fprint(w, "内部错误")
 		return
@@ -154,7 +154,7 @@ func getAction(r *http.Request) (string, error) {
 }
 
 // getIndex 获取主页
-func getIndex() (string, error) {
+func getCoderIndex() (string, error) {
 	b, err := ioutil.ReadFile("./code.html")
 	if err != nil {
 		return "", err
