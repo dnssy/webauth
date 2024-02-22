@@ -15,7 +15,7 @@ import (
 
 // JsonResult 返回结构
 type JsonResult struct {
-	Code     int         `json:"code"`
+	Count    int         `json:"count"`
 	ErrorMsg string      `json:"errorMsg,omitempty"`
 	Data     interface{} `json:"data"`
 }

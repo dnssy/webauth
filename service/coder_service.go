@@ -14,6 +14,12 @@ import (
 	"gorm.io/gorm"
 )
 
+type JsonCodeResult struct {
+	Code     int         `json:"code"`
+	ErrorMsg string      `json:"errorMsg,omitempty"`
+	Data     interface{} `json:"data"`
+}
+
 // IndexCoderHandler 计数器接口
 func IndexCoderHandler(w http.ResponseWriter, r *http.Request) {
 	data, err := getCoderIndex()
@@ -26,7 +32,7 @@ func IndexCoderHandler(w http.ResponseWriter, r *http.Request) {
 
 // CodeHandler 计数器接口
 func CodeHandler(w http.ResponseWriter, r *http.Request) {
-	res := &JsonResult{}
+	res := &JsonCodeResult{}
 
 	if r.Method == http.MethodGet {
 		code, err := getCurrentCode()
