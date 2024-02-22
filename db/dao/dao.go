@@ -32,7 +32,7 @@ func (imp *CounterInterfaceImp) GetCounter(id int32) (*model.CounterModel, error
 
 const tableName_Coders = "Coders"
 
-// ClearCounter 清除Counter
+// ClearCoder 清除Coder
 func (imp *CoderInterfaceImp) ClearCoder(id int32) error {
 	cli := db.Get()
 	return cli.Table(tableName_Coders).Delete(&model.CoderModel{Id: id}).Error
@@ -45,7 +45,7 @@ func (imp *CoderInterfaceImp) UpsertCoder(coder *model.CoderModel) error {
 }
 
 // GetCoder 查询Coder
-func (imp *CoderInterfaceImp) GetCounter(id int32) (*model.CoderModel, error) {
+func (imp *CoderInterfaceImp) GetCoder(id int32) (*model.CoderModel, error) {
 	var err error
 	var coder = new(model.CoderModel)
 

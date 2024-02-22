@@ -73,13 +73,13 @@ func modifyCode(r *http.Request) (int32, error) {
 	}
 
 	var count int32
-	if action == "inc" {
-		count, err = upsertCode(r)
+	if action == "make" {
+		count, err = UpsertCoder(r)
 		if err != nil {
 			return 0, err
 		}
 	} else if action == "clear" {
-		err = clearCode()
+		err = ClearCoder()
 		if err != nil {
 			return 0, err
 		}
@@ -91,8 +91,8 @@ func modifyCode(r *http.Request) (int32, error) {
 	return count, err
 }
 
-// upsertCode 更新或修改计数器
-func upsertCode(r *http.Request) (int32, error) {
+// UpsertCoder 更新或修改计数器
+func UpsertCoder(r *http.Request) (int32, error) {
 	currentCode, err := getCurrentCode()
 	var code int32
 	createdAt := time.Now()
@@ -115,20 +115,20 @@ func upsertCode(r *http.Request) (int32, error) {
 		CreatedAt: createdAt,
 		UpdatedAt: time.Now(),
 	}
-	err = dao.Imp.UpsertCode(coder)
+	err = dao.Imp.UpsertCoder(coder)
 	if err != nil {
 		return 0, err
 	}
 	return coder.Count, nil
 }
 
-func clearCode() error {
-	return dao.Imp.ClearCode(1)
+func ClearCoder() error {
+	return dao.Imp.ClearCoder(1)
 }
 
 // getCurrentCode 查询当前计数器
 func getCurrentCode() (*model.CodeModel, error) {
-	Code, err := dao.Imp.GetCode(1)
+	Code, err := dao.Imp.GetCoder(1)
 	if err != nil {
 		return nil, err
 	}

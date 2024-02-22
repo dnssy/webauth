@@ -27,5 +27,5 @@ type CoderInterface interface {
 // CoderInterfaceImp 计数器数据模型实现
 type CoderInterfaceImp struct{}
 
-// Imp 实现实例
+// Imp CoderInterface 实现实例
 var Imp CoderInterface = &CoderInterfaceImp{}
