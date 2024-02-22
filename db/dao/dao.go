@@ -29,3 +29,28 @@ func (imp *CounterInterfaceImp) GetCounter(id int32) (*model.CounterModel, error
 
 	return counter, err
 }
+
+const tableName_Coders = "Coders"
+
+// ClearCounter 清除Counter
+func (imp *CoderInterfaceImp) ClearCoder(id int32) error {
+	cli := db.Get()
+	return cli.Table(tableName_Coders).Delete(&model.CoderModel{Id: id}).Error
+}
+
+// UpsertCoder 更新/写入coder
+func (imp *CoderInterfaceImp) UpsertCoder(coder *model.CoderModel) error {
+	cli := db.Get()
+	return cli.Table(tableName_Coders).Save(coder).Error
+}
+
+// GetCoder 查询Coder
+func (imp *CoderInterfaceImp) GetCounter(id int32) (*model.CoderModel, error) {
+	var err error
+	var coder = new(model.CoderModel)
+
+	cli := db.Get()
+	err = cli.Table(tableName_Coders).Where("id = ?", id).First(coder).Error
+
+	return coder, err
+}
