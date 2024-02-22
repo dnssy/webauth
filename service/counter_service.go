@@ -13,7 +13,7 @@ import (
 	"gorm.io/gorm"
 )
 
-// JsonResult 返回结构
+// JsonResult 返回结构m
 type JsonResult struct {
 	Count    int         `json:"count"`
 	ErrorMsg string      `json:"errorMsg,omitempty"`
