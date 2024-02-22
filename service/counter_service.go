@@ -13,7 +13,7 @@ import (
 	"gorm.io/gorm"
 )
 
-// JsonResult 返回结构m
+// JsonResult 返回结构
 type JsonResult struct {
 	Count    int         `json:"count"`
 	ErrorMsg string      `json:"errorMsg,omitempty"`
@@ -21,7 +21,7 @@ type JsonResult struct {
 }
 
 // IndexHandler 计数器接口
-func IndexHandler(w http.ResponseWriter, r *http.Request) {
+func IndexHandler(w http.ResponseWriter, rm *http.Request) {
 	data, err := getIndex()
 	if err != nil {
 		fmt.Fprint(w, "内部错误")
