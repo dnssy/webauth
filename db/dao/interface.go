@@ -28,4 +28,4 @@ type CoderInterface interface {
 type CoderInterfaceImp struct{}
 
 // Imp CoderInterface 实现实例
-var Imp CoderInterface = &CoderInterfaceImp{}
+var _ CoderInterface = &CoderInterfaceImp{}
