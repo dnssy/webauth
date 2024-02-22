@@ -14,6 +14,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// JsonCodeResult 返回结构
 type JsonCodeResult struct {
 	Code     int         `json:"code"`
 	ErrorMsg string      `json:"errorMsg,omitempty"`
